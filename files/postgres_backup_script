@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -o pipefail
+
 backup_globals() {
 	local filename="globals.sql.gz"
 	pg_dumpall -g -h "$PG_HOSTNAME" -U "$PG_USERNAME" -p "$PG_PORT" | gzip > "${filename}.in_progress" \
