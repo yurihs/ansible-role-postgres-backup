@@ -51,7 +51,12 @@ main() {
 	cd "$output_dir"
 
 	echo "Starting globals backup."
-	backup_globals && echo "Globals backup is done."
+	if backup_globals; then
+		echo "Globals backup is done."
+	else
+		echo "Globals backup failed. Exiting."
+		exit 1;
+	fi;
 
 	popd >/dev/null
 }
