@@ -9,6 +9,25 @@ backup_globals() {
 }
 
 
+list_databases() {
+	local databases_query="select datname from pg_database where not datistemplate and datallowconn order by datname;"
+	psql -h "$PG_HOSTNAME" -U "$PG_USERNAME" -p "$PG_PORT" -At -c "$databases_query" postgres
+}
+
+
+backup_databases() {
+	for database in $(list_databases); do
+		local filename="${database}.custom"
+		if (umask 077 && pg_dump -F c -h "$PG_HOSTNAME" -U "$PG_USERNAME" -p "$PG_PORT" "$database" -f "${filename}.in_progress"); then
+			mv "${filename}.in_progress" "$filename"
+		else
+			return 1
+		fi;
+	done
+	return 0
+}
+
+
 print_usage() {
 	echo "Usage:"
 	echo "    $0 <configuration_file>"
@@ -55,6 +74,14 @@ main() {
 		echo "Globals backup is done."
 	else
 		echo "Globals backup failed. Exiting."
+		exit 1;
+	fi;
+
+	echo "Starting databases backup."
+	if backup_databases; then
+		echo "Databases backup is done."
+	else
+		echo "Databases backup failed. Exiting."
 		exit 1;
 	fi;
 
