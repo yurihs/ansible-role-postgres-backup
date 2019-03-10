@@ -16,10 +16,19 @@
     path: "{{ postgres_backup_config_dir }}"
     state: directory
 
-- name: "Copy configs"
+- name: "Add managed configs"
   template:
     src: postgres_backup_config.j2
     dest: "{{ postgres_backup_config_dir }}/{{ item.name }}.conf"
     mode: 0600
+  when: item.state|default('present') != 'absent'
   with_items:
     - "{{ postgres_backup_list }}"
+
+- name: "Remove managed configs"
+  file:
+    path: "{{ postgres_backup_config_dir }}/{{ item.name }}.conf"
+    state: absent
+  when: item.state|default('present') == 'absent'
+  with_items:
+      - "{{ postgres_backup_list }}"
