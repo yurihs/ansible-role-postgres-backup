@@ -1,0 +1,38 @@
+---
+
+- name: "Install PostgreSQL client"
+  apt:
+    name: postgresql-client
+    state: present
+
+- name: "Copy script"
+  copy:
+    src: postgres_backup_script
+    dest: /usr/local/bin/postgres_backup
+    mode: 0755
+
+
+- name: "Copy configs"
+  block:
+    - name: "Create configuration directory"
+      file:
+        path: "{{ postgres_backup_config_dir }}"
+        state: directory
+    - name: "Find existing configs"
+      find:
+        paths: "{{ postgres_backup_config_dir }}"
+        patterns: "*.conf"
+        hidden: true
+      register: existing_config_files
+    - name: "Remove existing configs"
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ existing_config_files.files }}"
+    - name: "Copy new configs"
+      template:
+        src: postgres_backup_config.j2
+        dest: "{{ postgres_backup_config_dir }}/{{ item.name }}.conf"
+        mode: 0600
+      with_items:
+        - "{{ postgres_backup_list }}"

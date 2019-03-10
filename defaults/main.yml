@@ -1,0 +1,12 @@
+---
+
+postgres_backup_config_dir: /etc/postgres_backup
+
+postgres_backup_default_output_dir: /srv/postgres_backup
+postgres_backup_default_date_format: "%Y-%m-%d_%H-%M"
+
+postgres_backup_list:
+  - name: default
+    pg_username: postgres
+    pg_hostname: localhost
+    pg_port: 5432

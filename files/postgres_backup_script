@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+backup_globals() {
+	local filename="globals.sql.gz"
+	pg_dumpall -g -h "$PG_HOSTNAME" -U "$PG_USERNAME" -p "$PG_PORT" | gzip > "${filename}.in_progress" \
+	&& mv "${filename}.in_progress" "$filename"
+}
+
+
+print_usage() {
+	echo "Usage:"
+	echo "    $0 <configuration_file>"
+	exit 1
+}
+
+
+load_config_file() {
+	local config_file="$1"
+
+	if [[ ! -r "$config_file" ]]; then
+		echo "Unable to read configuration file at \"${config_file}\"." 1>&2
+		exit 1
+	fi;
+
+	source "$config_file"
+}
+
+
+create_output_dir() {
+	local output_dir="${OUTPUT_DIR_BASE%/}/$(date "+$DATE_FORMAT")"
+	mkdir -p "$output_dir"
+	echo "$output_dir"
+}
+
+
+main() {
+	if [[ $# -ne 1 ]]; then
+		print_usage "$0"
+		exit
+	fi
+
+	local config_file="$1"
+	load_config_file "$config_file" && echo "Loaded configuration from \"${config_file}\"."
+
+	output_dir="$(create_output_dir)"
+	echo "Created output directory \"${output_dir}\"."
+
+	pushd . >/dev/null
+	cd "$output_dir"
+
+	echo "Starting globals backup."
+	backup_globals && echo "Globals backup is done."
+
+	popd >/dev/null
+}
+
+
+main "$@"
