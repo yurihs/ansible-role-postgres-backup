@@ -1,6 +1,8 @@
 
 PG_USERNAME="{{ item.pg_username }}"
+{% if item.pg_password is defined %}
 export PGPASSWORD="{{ item.pg_password }}"
+{% endif %}
 
 PG_HOSTNAME="{{ item.pg_hostname }}"
 PG_PORT="{{ item.pg_port }}"
