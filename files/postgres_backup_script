@@ -4,7 +4,7 @@ set -o pipefail
 
 backup_globals() {
 	local filename="globals.sql.gz"
-	pg_dumpall -g -h "$PG_HOSTNAME" -U "$PG_USERNAME" -p "$PG_PORT" | gzip > "${filename}.in_progress" \
+	(umask 077 && pg_dumpall -g -h "$PG_HOSTNAME" -U "$PG_USERNAME" -p "$PG_PORT" | gzip > "${filename}.in_progress") \
 	&& mv "${filename}.in_progress" "$filename"
 }
 
