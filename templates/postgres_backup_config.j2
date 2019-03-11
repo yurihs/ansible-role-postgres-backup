@@ -7,5 +7,5 @@ export PGPASSWORD="{{ item.pg_password }}"
 PG_HOSTNAME="{{ item.pg_hostname }}"
 PG_PORT="{{ item.pg_port }}"
 
-OUTPUT_DIR_BASE="{{ item.output_dir | default(postgres_backup_default_output_dir) }}"
+OUTPUT_DIR_BASE="{{ item.output_dir | default(postgres_backup_default_output_dir + '/' + item.name) }}"
 DATE_FORMAT="{{ item.date_format | default(postgres_backup_default_date_format) }}"
