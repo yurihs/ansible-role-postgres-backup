@@ -34,3 +34,24 @@
   when: item.state|default('present') == 'absent'
   with_items:
       - "{{ postgres_backup_list }}"
+
+- name: Add cron entries
+  cron:
+    name: "postgres_backup - {{ item.name }}"
+    minute: "{{ item.cron.minute }}"
+    hour: "{{ item.cron.hour }}"
+    day: "{{ item.cron.day }}"
+    month: "{{ item.cron.month }}"
+    weekday: "{{ item.cron.weekday }}"
+    job: "postgres_backup {{ postgres_backup_config_dir }}/{{ item.name }}.conf"
+  when: item.state|default('present') != 'absent' and item.cron is defined
+  with_items:
+      - "{{ postgres_backup_list }}"
+
+- name: Remove cron entries
+  cron:
+    name: "postgres_backup - {{ item.name }}"
+    state: absent
+  when: item.state|default('present') == 'absent'
+  with_items:
+      - "{{ postgres_backup_list }}"
