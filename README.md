@@ -7,13 +7,13 @@
 
 ## What is backed up?
 
-- Global objects (roles and tablespaces), compressed using gzip. (`pg_dumpall --globals-only | gzip`)
-- All readable databases, to separate files, using the "custom" PostgreSQL format. (`pg_dump --format=custom database`)
+- Global objects (roles and tablespaces), compressed using gzip. `pg_dumpall --globals-only | gzip`
+- All readable databases, to separate files, using the "custom" PostgreSQL format. `pg_dump --format=custom database`
 
 
 ## Role variables (default values)
 
-~~~
+~~~yaml
 postgres_backup_list:
   - name: default
     pg_username: postgres
@@ -39,20 +39,20 @@ When removing an item from the list, remember to change to use the `state`
 parameter to remove the configuration file and the cron job from the system
 (see examples below).
 
-~~~
+~~~yaml
 postgres_backup_config_dir: /etc/postgres_backup
 ~~~
 
 Where to store the configuration.
 
-~~~
+~~~yaml
 postgres_backup_default_output_dir: /srv/postgres_backup
 ~~~
 
 Where to store the backups. Each entry will have its own directory inside
 here. This variable may be overridden by each entry in the backup list.
 
-~~~
+~~~yaml
 postgres_backup_default_date_format: "%Y-%m-%d_%H-%M"
 ~~~
 
@@ -63,7 +63,7 @@ entry in the backup list.
 
 ### Hourly backup of a local PostgreSQL server
 
-~~~
+~~~yaml
 postgres_backup_list:
   - name: default
     pg_username: postgres
@@ -95,7 +95,7 @@ This configuration will result in the following structure:
 
 ### No automatic backups, just install the script and configuration
 
-~~~
+~~~yaml
 postgres_backup_list:
   - name: default
     pg_username: postgres
@@ -105,7 +105,7 @@ postgres_backup_list:
 
 ### Daily backup of a remote server, using a password
 
-~~~
+~~~yaml
 postgres_backup_list:
   - name: production
     pg_username: backup
@@ -122,7 +122,7 @@ postgres_backup_list:
 
 ### Remove a previously defined configuration
 
-~~~
+~~~yaml
 postgres_backup_list:
   - name: production
   	state: absent
