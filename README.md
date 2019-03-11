@@ -1,4 +1,4 @@
-# Ansible role: Postgres Backups
+# Ansible Role: Postgres Backups
 
 Installs a script to back up PostgreSQL databases. Supports backing up
 multiple hosts. Manages cron entries for regular execution.
