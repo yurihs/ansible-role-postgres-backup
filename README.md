@@ -3,6 +3,14 @@
 Installs a script to back up PostgreSQL databases. Supports backing up
 multiple hosts. Manages cron entries for regular execution.
 
+
+## What is backed up?
+
+- Global objects (roles and tablespaces), compressed using gzip. (`pg_dumpall --globals-only | gzip`)
+
+- All readable databases, to separate files, using the "custom" PostgreSQL format. (`pg_dump --format=custom database`)
+
+
 ## Role variables (default values)
 
 ~~~
@@ -41,7 +49,8 @@ Where to store the configuration.
 postgres_backup_default_output_dir: /srv/postgres_backup
 ~~~
 
-Where to store the backups. May be overridden by each entry in the backup list.
+Where to store the backups. Each entry will have its own directory inside
+here. This variable may be overridden by each entry in the backup list.
 
 ~~~
 postgres_backup_default_date_format: "%Y-%m-%d_%H-%M"
@@ -66,6 +75,22 @@ postgres_backup_list:
       day: '*'
       month: '*'
       weekday: '*'
+~~~
+
+This configuration will result in the following structure:
+
+~~~
+/srv/
+	postgres_backup/
+		default/
+			2019-01-01_00-00/
+				globals.sql.gz
+				database-a.custom
+				database-b.custom
+			2019-01-01_01-00/
+				globals.sql.gz
+				database-a.custom
+				database-b.custom
 ~~~
 
 ### No automatic backups, just install the script and configuration
