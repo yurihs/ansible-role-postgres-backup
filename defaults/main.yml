@@ -11,7 +11,7 @@ postgres_backup_list:
     pg_hostname: localhost
     pg_port: 5432
     cron:
-      minute: 0
+      minute: '0'
       hour: '*'
       day: '*'
       month: '*'
