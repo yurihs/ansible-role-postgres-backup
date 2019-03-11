@@ -103,7 +103,7 @@ postgres_backup_list:
     pg_port: 5432
 ~~~
 
-### Daily backup of a remote server, using a password
+### Daily backup of a remote server, using a password, and output to a different directory
 
 ~~~yaml
 postgres_backup_list:
@@ -112,12 +112,28 @@ postgres_backup_list:
     pg_password: "hunter2"
     pg_hostname: db.example.com
     pg_port: 5432
+    output_dir: /opt/prod_db_bak
     cron:
       minute: '0'
       hour: '0'
       day: '*'
       month: '*'
       weekday: '*'
+~~~
+
+This configuration will result in the following structure:
+
+~~~
+/opt/
+  prod_db_bak/
+    2019-01-01_00-00/
+      globals.sql.gz
+      users.custom
+      posts.custom
+    2019-01-02_00-00/
+      globals.sql.gz
+      users.custom
+      posts.custom
 ~~~
 
 ### Remove a previously defined configuration
