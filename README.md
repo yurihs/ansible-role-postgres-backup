@@ -1,13 +1,13 @@
 # Ansible Role: Postgres Backups
 
-Installs a script to back up PostgreSQL databases. Supports backing up
-multiple hosts. Manages cron entries for regular execution.
+- Installs a script to back up PostgreSQL databases.
+- Supports backing up multiple hosts.
+- Manages cron entries for regular execution.
 
 
 ## What is backed up?
 
 - Global objects (roles and tablespaces), compressed using gzip. (`pg_dumpall --globals-only | gzip`)
-
 - All readable databases, to separate files, using the "custom" PostgreSQL format. (`pg_dump --format=custom database`)
 
 
