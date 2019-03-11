@@ -81,16 +81,16 @@ This configuration will result in the following structure:
 
 ~~~
 /srv/
-	postgres_backup/
-		default/
-			2019-01-01_00-00/
-				globals.sql.gz
-				database-a.custom
-				database-b.custom
-			2019-01-01_01-00/
-				globals.sql.gz
-				database-a.custom
-				database-b.custom
+  postgres_backup/
+    default/
+      2019-01-01_00-00/
+        globals.sql.gz
+        database-a.custom
+        database-b.custom
+      2019-01-01_01-00/
+        globals.sql.gz
+        database-a.custom
+        database-b.custom
 ~~~
 
 ### No automatic backups, just install the script and configuration
@@ -125,5 +125,5 @@ postgres_backup_list:
 ~~~yaml
 postgres_backup_list:
   - name: production
-  	state: absent
+    state: absent
 ~~~
