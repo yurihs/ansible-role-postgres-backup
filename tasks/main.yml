@@ -45,6 +45,7 @@
     weekday: "{{ item.cron.weekday }}"
     job: "/usr/local/bin/postgres_backup {{ postgres_backup_config_dir }}/{{ item.name }}.conf"
   when: item.state|default('present') != 'absent' and item.cron is defined
+  no_log: true
   with_items:
       - "{{ postgres_backup_list }}"
 
@@ -53,5 +54,6 @@
     name: "postgres_backup - {{ item.name }}"
     state: absent
   when: item.state|default('present') == 'absent'
+  no_log: true
   with_items:
       - "{{ postgres_backup_list }}"
