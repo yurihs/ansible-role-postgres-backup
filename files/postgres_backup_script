@@ -16,14 +16,19 @@ list_databases() {
 
 
 backup_databases() {
-	for database in $(list_databases); do
+	local databases=$(list_databases)
+	if [[ -z "${databases// }" ]]; then
+		echo "Found no databases to back up. Exiting."
+		exit 1
+	fi
+	while read -r database; do
 		local filename="${database}.custom"
 		if (umask 077 && pg_dump -F c -h "$PG_HOSTNAME" -U "$PG_USERNAME" -p "$PG_PORT" "$database" -f "${filename}.in_progress"); then
 			mv "${filename}.in_progress" "$filename"
 		else
 			return 1
 		fi;
-	done
+	done <<< "$databases"
 	return 0
 }
 
