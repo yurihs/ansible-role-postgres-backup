@@ -31,9 +31,9 @@ Which PostgreSQL instances to backup (connection info), and (optionally) how
 often.
 
 These entries are stored in configuration files, so you must consider the
-security implications of storing passwords in plaintext (if you specify then
+security implications of storing passwords in plaintext (if you specify them
 using `pg_password`, see examples below). By default, these files will be
-readable only by their owner (usually, `root`).
+readable only by their owner (usually `root`).
 
 When removing an item from the list, remember to change to use the `state`
 parameter to remove the configuration file and the cron job from the system
