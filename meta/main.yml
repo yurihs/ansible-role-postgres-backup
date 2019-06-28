@@ -3,12 +3,20 @@
 dependencies: []
 
 galaxy_info:
+  role_name: postgres_backup
   author: yurihs
   description: Backup PostgreSQL databases
+  license: MIT
+  min_ansible_version: 2.4
   platforms:
     - name: Debian
       versions:
-        - all
+        - jessie
+        - stretch
+        - buster
+        - sid
     - name: Ubuntu
       versions:
-        - all
+        - xenial
+        - bionic
+        - cosmic
