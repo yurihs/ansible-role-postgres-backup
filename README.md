@@ -1,5 +1,7 @@
 # Ansible Role: Postgres Backups
 
+[![Ansible Galaxy Badge](https://img.shields.io/ansible/role/41600.svg)](https://galaxy.ansible.com/yurihs/postgres_backup)
+
 - Installs a script to back up PostgreSQL databases.
 - Supports backing up multiple hosts.
 - Manages cron entries for regular execution.
