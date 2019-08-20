@@ -9,8 +9,8 @@
 
 ## What is backed up?
 
-- Global objects (roles and tablespaces), compressed using gzip. `pg_dumpall --globals-only | gzip`
-- All readable databases, to separate files, using the "custom" PostgreSQL format. `pg_dump --format=custom database`
+- Global objects (roles and tablespaces), compressed using gzip. May be disabled. Equivalent to `pg_dumpall --globals-only | gzip`
+- All readable databases, to separate files, using the "custom" PostgreSQL format. Equivalent to `pg_dump --format=custom database`
 
 
 ## Role variables (default values)
@@ -21,6 +21,7 @@ postgres_backup_list:
     pg_username: postgres
     pg_hostname: localhost
     pg_port: 5432
+    do_backup_globals: true
     cron:
       minute: '0'
       hour: '*'
@@ -71,6 +72,7 @@ postgres_backup_list:
     pg_username: postgres
     pg_hostname: localhost
     pg_port: 5432
+    do_backup_globals: true
     cron:
       minute: '0'
       hour: '*'
@@ -114,6 +116,7 @@ postgres_backup_list:
     pg_password: "hunter2"
     pg_hostname: db.example.com
     pg_port: 5432
+    do_backup_globals: false
     output_dir: /opt/prod_db_bak
     cron:
       minute: '0'
@@ -129,11 +132,9 @@ This configuration will result in the following structure:
 /opt/
   prod_db_bak/
     2019-01-01_00-00/
-      globals.sql.gz
       users.custom
       posts.custom
     2019-01-02_00-00/
-      globals.sql.gz
       users.custom
       posts.custom
 ~~~

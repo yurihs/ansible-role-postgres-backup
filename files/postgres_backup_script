@@ -74,12 +74,16 @@ main() {
 	pushd . >/dev/null
 	cd "$output_dir"
 
-	echo "Starting globals backup."
-	if backup_globals; then
-		echo "Globals backup is done."
+	if [[ "$DO_BACKUP_GLOBALS" = true ]]; then
+		echo "Starting globals backup."
+		if backup_globals; then
+			echo "Globals backup is done."
+		else
+			echo "Globals backup failed. Exiting."
+			exit 1;
+		fi;
 	else
-		echo "Globals backup failed. Exiting."
-		exit 1;
+		echo "Skipping globals backup."
 	fi;
 
 	echo "Starting databases backup."

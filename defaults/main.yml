@@ -10,6 +10,7 @@ postgres_backup_list:
     pg_username: postgres
     pg_hostname: localhost
     pg_port: 5432
+    do_backup_globals: true
     cron:
       minute: '0'
       hour: '*'
